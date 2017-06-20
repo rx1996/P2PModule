@@ -57,6 +57,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 //判断账号是否登录过，如果没有登录跳转到登录界面，或者跳转到主界面
                 if(isLogin()) {
                     startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                }else {
+                    startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
                 }
                 //清除动画
                 ivWelcomeIcon.clearAnimation();
