@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atguigu.p2pmodule.R;
+import com.atguigu.p2pmodule.common.AppManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,8 +31,14 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        AppManager.getInstance().addActivity(this);
         initView();
         initData();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().removeActivity(this);
     }
 
     private void initData() {
