@@ -28,5 +28,9 @@ public class UIUtils {
         return MyApplication.getContext();
     }
 
+    public static String stringFormat(String key,String value){
+        String versionName = String.format(key, value);
+        return versionName;
+    }
 
 }

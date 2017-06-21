@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.atguigu.p2pmodule.R;
 import com.atguigu.p2pmodule.common.AppManager;
+import com.atguigu.p2pmodule.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,14 +87,14 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        splashTvVersion.setText(getVersionCode());
+        //第一个参数是含有占位字符的字符串 第二个参数是占位字符的值
+        splashTvVersion.setText(UIUtils.stringFormat(splashTvVersion.getText().toString(),getVersionCode()));
     }
 
     //获取版本号
     private String getVersionCode() {
-        PackageInfo info = null;
         try {
-            info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
             //versionCode应用市场用来区分版本有没有更新
             int versionCode = info.versionCode;
             //versionName是给用户看的
