@@ -28,9 +28,19 @@ public class UIUtils {
         return MyApplication.getContext();
     }
 
-    public static String stringFormat(String key,String value){
-        String versionName = String.format(key, value);
+    /*
+    * 格式化字符串 - 占位字符
+    * */
+    public static String stringFormat(int id,String value){
+        String versionName = String.format(getString(id), value);
         return versionName;
+    }
+
+    /*
+    * 从string文件获取字符串
+    * */
+    public static String getString(int id){
+        return getContext().getResources().getString(id);
     }
 
 }

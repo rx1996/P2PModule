@@ -88,7 +88,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initView() {
         //第一个参数是含有占位字符的字符串 第二个参数是占位字符的值
-        splashTvVersion.setText(UIUtils.stringFormat(splashTvVersion.getText().toString(),getVersionCode()));
+        splashTvVersion.setText(UIUtils.stringFormat(R.string.splash_version,getVersionCode()));
     }
 
     //获取版本号
