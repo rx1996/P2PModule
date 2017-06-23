@@ -18,6 +18,7 @@ import com.atguigu.p2pmodule.bean.AppNetConfig;
 import com.atguigu.p2pmodule.bean.IndexBean;
 import com.atguigu.p2pmodule.utils.HttpUtils;
 import com.atguigu.p2pmodule.utils.UIUtils;
+import com.atguigu.p2pmodule.view.ProgressView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -54,7 +55,8 @@ public class HomeFragment extends BaseFragment {
     TextView tvHomeProduct;
     @Bind(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
-
+    @Bind(R.id.proView)
+    ProgressView proView;
 
     @Override
     protected void initTitle() {
@@ -98,6 +100,7 @@ public class HomeFragment extends BaseFragment {
                     public void onSuccess(String json) {
                         IndexBean bean = JSON.parseObject(json, IndexBean.class);
                         initBanner(bean);
+                        initProgressView(bean);
                     }
 
                     @Override
@@ -105,6 +108,12 @@ public class HomeFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    private void initProgressView(IndexBean bean) {
+        String progress = bean.getProInfo().getProgress();
+
+        proView.setSweepAngle(Integer.parseInt(progress));
     }
 
     //手动解析数据

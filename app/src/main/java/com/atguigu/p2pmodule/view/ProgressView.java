@@ -1,9 +1,12 @@
 package com.atguigu.p2pmodule.view;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -32,6 +35,7 @@ public class ProgressView extends View {
     private int steokeWidth = UIUtils.dp2px(20);
     private int heigth;
     private int width;
+    private int sweepAngle = 0;
     public ProgressView(Context context) {
         super(context);
         init();
@@ -43,8 +47,6 @@ public class ProgressView extends View {
     }
     private void init(){
         paint = new Paint();
-        paint.setColor(paintColor);
-        paint.setStrokeWidth(steokeWidth);
         paint.setAntiAlias(true);
         /*
         * 三种样式
@@ -53,7 +55,7 @@ public class ProgressView extends View {
         * stroke and fill 即填充又描边
         *
         * */
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.STROKE);//设置圆环填充的样式
     }
 
     @Override
@@ -71,9 +73,58 @@ public class ProgressView extends View {
         *
         * */
         //画圆
-        int cx = width / 2;
-        int cy = heigth / 2;
-        int radius = cx - steokeWidth / 2;
+        paint.setStrokeWidth(steokeWidth);//画笔的宽度
+        paint.setColor(Color.BLACK);//画笔的颜色
+        int cx = width / 2;//画笔的x坐标
+        int cy = heigth / 2;//画笔的Y坐标
+        int radius = cx - steokeWidth / 2;//圆环的半径
         canvas.drawCircle(cx,cy,radius,paint);
+
+        //画弧
+        paint.setColor(Color.RED);//弧度的颜色
+        RectF rectF = new RectF();
+        //圆弧的坐上顶点和右下顶点
+        rectF.set(steokeWidth/2,steokeWidth/2,width-steokeWidth/2,heigth-steokeWidth/2);
+        canvas.drawArc(rectF,0,sweepAngle,false,paint);
+
+        //画文字
+        paint.setStrokeWidth(0);//设置画笔的宽度
+        String str = sweepAngle+"%";
+        paint.setTextSize(30);//设置文子大小
+        Rect rect = new Rect();
+        paint.getTextBounds(str,0,str.length(),rect);//获取文字的宽和高
+        int textWidth = rect.width(); //文字的宽
+        int textHeight = rect.height();//文字的高
+        float x = width / 2 - textWidth / 2; //左下顶点的x坐标
+        float y = heigth / 2 + textHeight / 2;//左下顶点的y坐标
+        canvas.drawText(str,x,y,paint);
+    }
+    /*
+    * 面试题：
+    * invalidate和postInvalidate的区别是什么
+    * invalidate是主线程进行强制重绘
+    * postInvalidate是分线程进行强制重绘
+    * */
+    public void setSweepAngle(final int sweepAngle){
+//        for (int i = 0; i < sweepAngle; i++) {
+//            this.sweepAngle = i;
+//            //强制重绘
+//            invalidate();
+//            //postInvalidate();
+//        }
+        ValueAnimator animator = ValueAnimator.ofInt(0,sweepAngle);
+        animator.setDuration(5000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                int a = (int) animation.getAnimatedValue();
+
+                ProgressView.this.sweepAngle = a;
+                invalidate();
+            }
+        });
+        animator.start();
+
     }
 }
