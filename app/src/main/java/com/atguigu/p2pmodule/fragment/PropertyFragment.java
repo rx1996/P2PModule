@@ -8,23 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.atguigu.p2pmodule.base.BaseFragment;
+
 /**
  * Created by Administrator on 2017/6/20.
  */
 
-public class PropertyFragment extends Fragment {
-
-
-    @Nullable
+public class PropertyFragment extends BaseFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText("资产");
-        return textView;
+    protected void initTitle() {
+
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void initData() {
+
+    }
+
+    @Override
+    public int getLayoutId() {
+        return 0;
     }
 }
