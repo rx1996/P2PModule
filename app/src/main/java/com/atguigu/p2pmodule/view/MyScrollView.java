@@ -71,7 +71,7 @@ public class MyScrollView extends ScrollView {
                 lastY = eventY;
                 break;
             case MotionEvent.ACTION_UP:
-                // if (!rect.isEmpty()){
+                if (!rect.isEmpty()){
                 int translateY = childView.getTop()-rect.top;
                 TranslateAnimation animation
                         = new TranslateAnimation(0,0,0,-translateY);
@@ -101,10 +101,39 @@ public class MyScrollView extends ScrollView {
                     }
                 });
                 childView.startAnimation(animation);
-                //}
+                }
                 break;
         }
         return true;
+    }
+    /*
+    * 事件拦截
+    * */
+    private int lastX;
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean isOnIntercept = false;
+        int eventy = (int) ev.getY();
+        int eventx = (int) ev.getX();
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                lastY = eventy;
+                lastX = eventx;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //y轴的偏移量
+                int dy = Math.abs(eventy - lastY);
+                //x轴的偏移量
+                int dx = Math.abs(eventx - lastX);
+                //如果y轴的偏移量大于x轴的偏移量就拦截
+                if (dy > dx && dy > 20){
+                    isOnIntercept = true;
+                }
+                lastX = eventx;
+                lastY = eventy;
+                break;
+        }
+        return isOnIntercept;
     }
 
     /*
