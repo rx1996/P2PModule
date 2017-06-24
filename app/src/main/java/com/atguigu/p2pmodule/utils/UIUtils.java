@@ -1,6 +1,7 @@
 package com.atguigu.p2pmodule.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.atguigu.p2pmodule.common.MyApplication;
@@ -53,5 +54,19 @@ public class UIUtils {
     public static int px2dp(int px){
         float density = getContext().getResources().getDisplayMetrics().density;
         return (int) (px / density + 0.5);
+    }
+    public static void runOnUIThread(Runnable runnable){
+        //pid processid 进程id
+        //tid threadid 线程id
+        //注意：如果在主线程中运行 那么tid == pid
+        Log.d("process", "runOnUIThread: "
+                +"processid=="+MyApplication.getPid()
+                +"  threadid== "+android.os.Process.myTid()
+        );
+        if(MyApplication.getPid() == android.os.Process.myTid()){
+            runnable.run();
+        }else{
+            MyApplication.getHandler().post(runnable);
+        }
     }
 }
