@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
 
+    private LoadingPager loadingPager;
 
     @Nullable
     @Override
@@ -40,7 +41,7 @@ public abstract class BaseFragment extends Fragment {
 //        initTitle();
 //        initData();
 //        initListener();
-        LoadingPager loadingPager = new LoadingPager(getActivity()) {
+        loadingPager = new LoadingPager(getActivity()) {
             @Override
             public int getLayoutid() {
                 return BaseFragment.this.getLayoutId();
@@ -48,22 +49,33 @@ public abstract class BaseFragment extends Fragment {
 
             @Override
             protected void setResult(View successView, String json) {
-
+                ButterKnife.bind(BaseFragment.this,successView);
+                setContent(json);
             }
 
             @Override
             protected String getUrl() {
-                return null;
+                return getChildUrl();
             }
         };
 
         return loadingPager;
     }
+    protected abstract String getChildUrl();
+
+    protected abstract void setContent(String json);
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        ButterKnife.unbind(this);
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //联网
+        loadingPager.loadNet();
     }
 
     protected abstract void initTitle();

@@ -41,7 +41,10 @@ public abstract class LoadingPager extends FrameLayout {
 
         showSafePager();
     }
-
+    /*
+        * 展示界面必须在主线程
+        *
+        * */
     private void showSafePager() {
         //保证在主线程中运行
         UIUtils.runOnUIThread(new Runnable() {
@@ -52,6 +55,11 @@ public abstract class LoadingPager extends FrameLayout {
         });
     }
 
+    /*
+    *
+    *
+    * 展示界面 根据的是当前的状态
+    * */
     private void showPager() {
         errorView.setVisibility(currentState == STATE_ERROR ? View.VISIBLE : View.GONE);
         loadingView.setVisibility(currentState == STATE_LOADING?View.VISIBLE : View.GONE);
@@ -77,6 +85,7 @@ public abstract class LoadingPager extends FrameLayout {
            HttpUtils.getInstance().get(url, new HttpUtils.OnHttpClientListener() {
                @Override
                public void onSuccess(String json) {
+                   //改变当前状态
                    currentState = STATE_SUCCESS;
                    setResult(successView,json);
                    showSafePager();

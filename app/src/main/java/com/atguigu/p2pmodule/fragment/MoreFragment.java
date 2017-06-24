@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.atguigu.p2pmodule.R;
 import com.atguigu.p2pmodule.base.BaseFragment;
+import com.atguigu.p2pmodule.bean.AppNetConfig;
 
 /**
  * Created by Administrator on 2017/6/20.
@@ -16,7 +18,15 @@ import com.atguigu.p2pmodule.base.BaseFragment;
 
 public class MoreFragment extends BaseFragment {
 
+    @Override
+    protected String getChildUrl() {
+        return AppNetConfig.INDEX;
+    }
 
+    @Override
+    protected void setContent(String json) {
+
+    }
     @Override
     protected void initTitle() {
 
@@ -29,6 +39,6 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return 0;
+        return R.layout.fragment_home;
     }
 }

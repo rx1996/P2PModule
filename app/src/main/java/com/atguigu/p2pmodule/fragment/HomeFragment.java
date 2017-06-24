@@ -43,24 +43,38 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment {
 
 
-//    @Bind(R.id.base_title)
-//    TextView baseTitle;
-//    @Bind(R.id.base_back)
-//    ImageView baseBack;
-//    @Bind(R.id.base_setting)
-//    ImageView baseSetting;
-//    @Bind(R.id.banner)
-//    Banner banner;
-//    @Bind(R.id.tv_home_product)
-//    TextView tvHomeProduct;
-//    @Bind(R.id.tv_home_yearrate)
-//    TextView tvHomeYearrate;
-//    @Bind(R.id.proView)
-//    ProgressView proView;
+    @Bind(R.id.base_title)
+    TextView baseTitle;
+    @Bind(R.id.base_back)
+    ImageView baseBack;
+    @Bind(R.id.base_setting)
+    ImageView baseSetting;
+    @Bind(R.id.banner)
+    Banner banner;
+    @Bind(R.id.tv_home_product)
+    TextView tvHomeProduct;
+    @Bind(R.id.tv_home_yearrate)
+    TextView tvHomeYearrate;
+    @Bind(R.id.proView)
+    ProgressView proView;
+
+    @Override
+    protected String getChildUrl() {
+        return AppNetConfig.INDEX;
+    }
+
+    @Override
+    protected void setContent(String json) {
+        //解析数据
+        IndexBean indexBean = JSON.parseObject(json,IndexBean.class);
+        initBanner(indexBean);
+        initProgressView(indexBean);
+    }
 
     @Override
     protected void initTitle() {
 //        baseTitle.setText("首页");
+
     }
 
 
@@ -93,27 +107,27 @@ public class HomeFragment extends BaseFragment {
 //                super.onFailure(error, content);
 //            }
 //        });
-        HttpUtils.getInstance().get(AppNetConfig.INDEX,
-                new HttpUtils.OnHttpClientListener() {
-
-                    @Override
-                    public void onSuccess(String json) {
-                        IndexBean bean = JSON.parseObject(json, IndexBean.class);
-                        initBanner(bean);
-                        initProgressView(bean);
-                    }
-
-                    @Override
-                    public void onFailure(String message) {
-
-                    }
-                });
+//        HttpUtils.getInstance().get(AppNetConfig.INDEX,
+//                new HttpUtils.OnHttpClientListener() {
+//
+//                    @Override
+//                    public void onSuccess(String json) {
+//                        IndexBean bean = JSON.parseObject(json, IndexBean.class);
+//                        initBanner(bean);
+//                        initProgressView(bean);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String message) {
+//
+//                    }
+//                });
     }
 
     private void initProgressView(IndexBean bean) {
         String progress = bean.getProInfo().getProgress();
 
-//        proView.setSweepAngle(Integer.parseInt(progress));
+        proView.setSweepAngle(Integer.parseInt(progress));
     }
 
     //手动解析数据
@@ -157,11 +171,11 @@ public class HomeFragment extends BaseFragment {
             list.add(AppNetConfig.BASE_URL+imaurl);
         }
         //设置图片加载器
-//        banner.setImageLoader(new GlideImageLoader());
-//        //设置图片集合
-//        banner.setImages(list);
-//        //banner设置方法全部调用完毕时最后调用
-//        banner.start();
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(list);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
     }
 
 
