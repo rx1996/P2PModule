@@ -78,9 +78,9 @@ public abstract class BaseFragment extends Fragment {
         return loadingPager;
     }
 
-    protected abstract String getChildUrl();
+    public abstract String getChildUrl();
     //联网的情况下重写
-    protected void setContent(String json){
+    public void setContent(String json){
 
     }
 
@@ -109,7 +109,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    protected abstract void initTitle();
+    public abstract void initTitle();
 
     /*
     * 重写
@@ -118,7 +118,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    protected abstract void initData();
+    public abstract void initData();
 
     /*
     * 可以重写

@@ -32,17 +32,17 @@ public class InvestReFragment extends BaseFragment {
             "大学老师购买车辆", "屌丝下海经商计划"
     };
     @Override
-    protected String getChildUrl() {
+    public String getChildUrl() {
         return null;
     }
 
     @Override
-    protected void initTitle() {
+    public void initTitle() {
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
 

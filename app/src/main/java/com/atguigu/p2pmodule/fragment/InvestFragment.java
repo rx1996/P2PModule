@@ -36,23 +36,23 @@ public class InvestFragment extends BaseFragment implements View.OnClickListener
     ViewPager vpInvest;
 
     @Override
-    protected String getChildUrl() {
+    public String getChildUrl() {
         return "";
     }
 
     //json 需要注意 不连网的情况下 json是没有数据的
     @Override
-    protected void setContent(String json) {
+    public void setContent(String json) {
 
     }
 
     @Override
-    protected void initTitle() {
+    public void initTitle() {
     }
 
     private List<BaseFragment> listFragment;
     @Override
-    protected void initData() {
+    public void initData() {
         initViewPager();
         //设置默认选中的TV
         setSelectTv(tvInvestAll);
