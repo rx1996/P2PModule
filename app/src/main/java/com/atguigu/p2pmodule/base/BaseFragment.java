@@ -124,7 +124,7 @@ public abstract class BaseFragment extends Fragment {
     * 可以重写
     *
     * */
-    private void initView() {
+    public void initView() {
 
     }
 
