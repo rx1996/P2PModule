@@ -12,13 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atguigu.p2pmodule.R;
+import com.atguigu.p2pmodule.base.BaseActivity;
 import com.atguigu.p2pmodule.common.AppManager;
 import com.atguigu.p2pmodule.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     @Bind(R.id.iv_welcome_icon)
     ImageView ivWelcomeIcon;
@@ -27,22 +28,19 @@ public class WelcomeActivity extends AppCompatActivity {
     @Bind(R.id.activity_splash)
     RelativeLayout activitySplash;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
-        AppManager.getInstance().addActivity(this);
-        initView();
-        initData();
+    public void initListener() {
+
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getInstance().removeActivity(this);
     }
 
-    private void initData() {
+    public void initData() {
         //跳转到主界面的第二种方法
 //        new Timer().schedule(new TimerTask() {
 //            @Override
@@ -86,9 +84,14 @@ public class WelcomeActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initView() {
+    public void initView() {
         //第一个参数是含有占位字符的字符串 第二个参数是占位字符的值
         splashTvVersion.setText(UIUtils.stringFormat(R.string.splash_version,getVersionCode()));
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_welcome;
     }
 
     //获取版本号
