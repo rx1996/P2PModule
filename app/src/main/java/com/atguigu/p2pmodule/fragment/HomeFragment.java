@@ -73,7 +73,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initTitle() {
-//        baseTitle.setText("首页");
+        baseTitle.setText("首页");
 
     }
 
