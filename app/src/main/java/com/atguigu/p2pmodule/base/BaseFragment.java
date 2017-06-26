@@ -3,11 +3,13 @@ package com.atguigu.p2pmodule.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.atguigu.p2pmodule.utils.UIUtils;
 import com.atguigu.p2pmodule.view.LoadingPager;
 
 import butterknife.ButterKnife;
@@ -43,20 +45,30 @@ public abstract class BaseFragment extends Fragment {
 //        initListener();
 
         loadingPager = new LoadingPager(getActivity()) {
-
+            //加载网络和无加载网络都会执行
             @Override
             public View getVeiw() {
                 View view = View.inflate(getActivity(),BaseFragment.this.getLayoutId(),null);
                 ButterKnife.bind(BaseFragment.this,view);
                 return view;
             }
-
+            //加载网络的时候会调用
             @Override
             protected void setResult(View successView, String json) {
 //                ButterKnife.bind(BaseFragment.this,successView);
                 setContent(json);
+                //保证在主线程中执行此方法
+                UIUtils.runOnUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initTitle();
+                        initView();
+                        initListener();
+                        initData();
+                    }
+                });
             }
-
+            //加载网络的时候
             @Override
             protected String getUrl() {
                 return getChildUrl();
@@ -87,10 +99,14 @@ public abstract class BaseFragment extends Fragment {
             //连网
             loadingPager.loadNet();
         }
-        initTitle();
-        initView();
-        initListener();
-        initData();
+        //不加载网络情况下执行
+        if(TextUtils.isEmpty(getChildUrl())) {
+            initTitle();
+            initView();
+            initListener();
+            initData();
+        }
+
     }
 
     protected abstract void initTitle();
@@ -98,7 +114,7 @@ public abstract class BaseFragment extends Fragment {
     /*
     * 重写
     * */
-    private void initListener() {
+    public void initListener() {
 
     }
 
