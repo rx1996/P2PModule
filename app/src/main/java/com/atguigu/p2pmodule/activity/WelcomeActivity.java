@@ -81,7 +81,7 @@ public class WelcomeActivity extends BaseActivity {
 
     //判断是否登录过
     private boolean isLogin() {
-        return true;
+        return false;
     }
 
     public void initView() {
