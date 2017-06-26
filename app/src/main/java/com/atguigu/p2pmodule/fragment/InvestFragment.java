@@ -20,7 +20,7 @@ public class InvestFragment extends BaseFragment {
 
     @Override
     protected String getChildUrl() {
-        return AppNetConfig.INDEX;
+        return "";
     }
 
     @Override
@@ -40,6 +40,6 @@ public class InvestFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_home;
+        return 0;
     }
 }

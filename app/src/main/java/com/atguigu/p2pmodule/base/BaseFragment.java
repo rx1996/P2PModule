@@ -24,11 +24,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//        if (getLayoutId() == 0){
-//            TextView view = new TextView(getActivity());
-//            view.setText("你呀小白啊");
-//            return view;
-//        }
+        if (getLayoutId() == 0){
+            TextView view = new TextView(getActivity());
+            view.setText("你呀小白啊");
+            return view;
+        }
 //
 //        View view = View.inflate(
 //                getActivity(),
@@ -41,6 +41,7 @@ public abstract class BaseFragment extends Fragment {
 //        initTitle();
 //        initData();
 //        initListener();
+
         loadingPager = new LoadingPager(getActivity()) {
             @Override
             public int getLayoutid() {
@@ -61,6 +62,7 @@ public abstract class BaseFragment extends Fragment {
 
         return loadingPager;
     }
+
     protected abstract String getChildUrl();
 
     protected abstract void setContent(String json);
@@ -74,8 +76,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //联网
-        loadingPager.loadNet();
+        if(getLayoutId() != 0) {
+            //连网
+            loadingPager.loadNet();
+        }
+
     }
 
     protected abstract void initTitle();
