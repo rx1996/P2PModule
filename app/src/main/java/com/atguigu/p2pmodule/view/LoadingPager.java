@@ -66,13 +66,13 @@ public abstract class LoadingPager extends FrameLayout {
         errorView.setVisibility(currentState == STATE_ERROR ? View.VISIBLE : View.GONE);
         loadingView.setVisibility(currentState == STATE_LOADING?View.VISIBLE : View.GONE);
         if(successView == null) {
-            successView = UIUtils.inflate(getLayoutid());
+            successView = getVeiw();
             this.addView(successView);
         }
         successView.setVisibility(currentState == STATE_SUCCESS?View.VISIBLE : View.GONE);
     }
 
-    public abstract int getLayoutid();
+    public abstract View getVeiw();
        /*
     *
     * 连网操作
@@ -85,9 +85,12 @@ public abstract class LoadingPager extends FrameLayout {
            String url = getUrl();
            //判断是否加载网络
            if(TextUtils.isEmpty(url)) {
+               //不加载网络
                currentState = STATE_SUCCESS;
                showSafePager();
+               setResult(successView,"");
            }else {
+               //加载网络
                HttpUtils.getInstance().get(url, new HttpUtils.OnHttpClientListener() {
                    @Override
                    public void onSuccess(String json) {
