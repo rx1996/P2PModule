@@ -1,5 +1,6 @@
 package com.atguigu.p2pmodule.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +11,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atguigu.p2pmodule.R;
+import com.atguigu.p2pmodule.activity.IconSettingsActivity;
+import com.atguigu.p2pmodule.activity.MainActivity;
 import com.atguigu.p2pmodule.base.BaseFragment;
 import com.atguigu.p2pmodule.bean.AppNetConfig;
 import com.atguigu.p2pmodule.utils.BitmapUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,6 +67,18 @@ public class PropertyFragment extends BaseFragment {
     }
 
     @Override
+    public void initListener() {
+        super.initListener();
+        tvSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //起始设置界面
+                startActivity(new Intent(getActivity(), IconSettingsActivity.class));
+            }
+        });
+    }
+
+    @Override
     public void initData() {
         Picasso.with(getActivity())
                 .load(AppNetConfig.BASE_URL+"images/tx.png")
@@ -78,6 +95,13 @@ public class PropertyFragment extends BaseFragment {
                     }
                 })
                 .into(ivMeIcon);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        try {
+            String name = new String(mainActivity.getUser().getName().getBytes(), "GBK");
+            tvMeName.setText(name);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
