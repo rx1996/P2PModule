@@ -1,8 +1,11 @@
 package com.atguigu.p2pmodule.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,8 +19,13 @@ import com.atguigu.p2pmodule.utils.BitmapUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.File;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 public class IconSettingsActivity extends BaseActivity {
 
@@ -40,9 +48,16 @@ public class IconSettingsActivity extends BaseActivity {
         baseTitle.setText("头像设置");
         baseBack.setVisibility(View.VISIBLE);
     }
-    //退出监听
+
     @Override
     public void initListener() {
+        baseBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //退出监听
         btnUserLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +72,92 @@ public class IconSettingsActivity extends BaseActivity {
                 clearSp();
                 AppManager.getInstance().removeAll();
                 startActivity(new Intent(IconSettingsActivity.this,LoginActivity.class));
+
+            }
+        });
+        //更换头像
+        tvUserChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(IconSettingsActivity.this)
+                        .setItems(new String[]{"相机","相册"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (which == 0){
+                                    showCamera();
+                                }else{
+                                    showPhoto();
+                                }
+                            }
+                        }).show();
+            }
+
+        });
+    }
+    /*
+    * 调用相册
+    * */
+    private void showPhoto() {
+        GalleryFinal.openGallerySingle(02, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+
+                Log.d("image", "onHanlderSuccess: "
+                        +resultList.get(0).getPhotoPath());
+                makeImage(resultList.get(0).getPhotoPath());
+
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+            }
+        });
+    }
+
+    private void makeImage(String photoPath) {
+
+        //展示图片
+        Picasso.with(this)
+                .load(new File(photoPath))
+                .transform(new Transformation() {
+                    @Override
+                    public Bitmap transform(Bitmap bitmap) {
+
+                        return BitmapUtils.getBitmap(bitmap);
+                    }
+
+                    @Override
+                    public String key() {
+                        return "CropCircleTransformation()";
+                    }
+                })
+                .into(ivUserIcon);
+        //上传图片
+
+        //保存到Sp中
+        //saveSp("image",photoPath);
+
+    }
+
+    /*
+    * 调用相机
+    * */
+    private void showCamera() {
+        GalleryFinal.openCamera(01, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+
+                Log.d("image", "onHanlderSuccess: "
+                        +resultList.get(0).getPhotoPath());
+                makeImage(resultList.get(0).getPhotoPath());
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+                Log.d("image", "onHanlderFailure: "+errorMsg);
 
             }
         });
