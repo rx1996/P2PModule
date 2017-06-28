@@ -1,5 +1,6 @@
 package com.atguigu.p2pmodule.activity;
 
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.atguigu.p2pmodule.R;
+import com.atguigu.p2pmodule.activity.gesture.GestureVerifyActivity;
 import com.atguigu.p2pmodule.base.BaseActivity;
 import com.atguigu.p2pmodule.common.AppManager;
 import com.atguigu.p2pmodule.fragment.HomeFragment;
@@ -129,6 +131,11 @@ public class MainActivity extends BaseActivity {
 
     public void initData() {
 
+        //验证手势密码是否开启
+        boolean toggle = get("toggle");
+        if (toggle){
+            startActivity(new Intent(this, GestureVerifyActivity.class));
+        }
 
     }
 
