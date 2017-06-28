@@ -55,10 +55,17 @@ public class LoginActivity extends BaseActivity {
     public void initTitle() {
         super.initTitle();
         baseTitle.setText("登录");
+        baseBack.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void initListener() {
+        baseBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,8 +130,13 @@ public class LoginActivity extends BaseActivity {
                         Log.d("json", "onFailure: "+message);
                     }
                 });
-
-
+            }
+        });
+        //注册监听
+        regitsterTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
     }
