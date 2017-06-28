@@ -84,6 +84,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         bean.setPhone(sp.getString("phone",""));
         return bean;
     }
+    //清除sp
+    public void clearSp(){
+        //清除sp文件内容
+        SharedPreferences sp = getSharedPreferences(spName,MODE_PRIVATE);
+        sp.edit().clear().commit();
+    }
 
     @Override
     protected void onDestroy() {

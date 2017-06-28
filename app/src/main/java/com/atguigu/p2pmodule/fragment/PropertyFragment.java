@@ -95,7 +95,7 @@ public class PropertyFragment extends BaseFragment {
                     }
                 })
                 .into(ivMeIcon);
-        MainActivity mainActivity = (MainActivity) getActivity();
+        MainActivity mainActivity = (MainActivity)getActivity();
         try {
             String name = new String(mainActivity.getUser().getName().getBytes(), "GBK");
             tvMeName.setText(name);
