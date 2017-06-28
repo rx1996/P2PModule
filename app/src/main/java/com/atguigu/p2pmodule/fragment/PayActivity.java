@@ -97,7 +97,7 @@ public class PayActivity extends BaseActivity {
                 //获取充值金额
                 String number = etChongzhi.getText().toString().trim();
                 double money = Double.parseDouble(number);
-                showPay();
+                showPay(money);
             }
         });
     }
@@ -159,7 +159,7 @@ public class PayActivity extends BaseActivity {
         };
     };
     //调起支付宝
-    private void showPay() {
+    private void showPay(double money) {
         // 订单
         String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
 
