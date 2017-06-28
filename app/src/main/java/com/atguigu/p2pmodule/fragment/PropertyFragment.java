@@ -3,6 +3,7 @@ package com.atguigu.p2pmodule.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.atguigu.p2pmodule.utils.BitmapUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
@@ -50,6 +52,7 @@ public class PropertyFragment extends BaseFragment {
     TextView llTouziZhiguan;
     @Bind(R.id.ll_zichan)
     TextView llZichan;
+    private MainActivity mainActivity;
 
     @Override
     public String getChildUrl() {
@@ -80,27 +83,51 @@ public class PropertyFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        Picasso.with(getActivity())
-                .load(AppNetConfig.BASE_URL+"images/tx.png")
-                .transform(new Transformation() {
-                    @Override
-                    public Bitmap transform(Bitmap bitmap) {
-
-                        return BitmapUtils.getBitmap(bitmap);
-                    }
-
-                    @Override
-                    public String key() {
-                        return "CropCircleTransformation()";
-                    }
-                })
-                .into(ivMeIcon);
-        MainActivity mainActivity = (MainActivity)getActivity();
+//        Picasso.with(getActivity())
+//                .load(AppNetConfig.BASE_URL+"images/tx.png")
+//                .transform(new Transformation() {
+//                    @Override
+//                    public Bitmap transform(Bitmap bitmap) {
+//
+//                        return BitmapUtils.getBitmap(bitmap);
+//                    }
+//
+//                    @Override
+//                    public String key() {
+//                        return "CropCircleTransformation()";
+//                    }
+//                })
+//                .into(ivMeIcon);
+        mainActivity = (MainActivity)getActivity();
         try {
             String name = new String(mainActivity.getUser().getName().getBytes(), "GBK");
             tvMeName.setText(name);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String image =mainActivity.getImage();
+
+        /*
+        * 判断加载网络图片还是本地图片
+        * */
+        if (TextUtils.isEmpty(image)){
+            //加载头像
+            Picasso.with(getActivity())
+                    .load(AppNetConfig.BASE_URL+"images/tx.png")
+
+                    .transform(new CropCircleTransformation())
+                    .into(ivMeIcon);
+        }else{
+            //加载头像
+            Picasso.with(getActivity())
+                    .load(new File(image))
+                    .transform(new CropCircleTransformation())
+                    .into(ivMeIcon);
         }
     }
 
