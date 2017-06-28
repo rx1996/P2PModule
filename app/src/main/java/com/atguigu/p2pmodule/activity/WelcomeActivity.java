@@ -81,7 +81,12 @@ public class WelcomeActivity extends BaseActivity {
 
     //判断是否登录过
     private boolean isLogin() {
-        return false;
+        String name = getUser().getName();
+        if(name.equals("admin")) {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     public void initView() {

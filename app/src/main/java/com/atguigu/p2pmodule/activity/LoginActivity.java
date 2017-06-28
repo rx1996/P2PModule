@@ -1,5 +1,6 @@
 package com.atguigu.p2pmodule.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,7 +14,11 @@ import android.widget.TextView;
 import com.atguigu.p2pmodule.R;
 import com.atguigu.p2pmodule.base.BaseActivity;
 import com.atguigu.p2pmodule.bean.AppNetConfig;
+import com.atguigu.p2pmodule.bean.LoginBean;
 import com.atguigu.p2pmodule.utils.HttpUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +87,35 @@ public class LoginActivity extends BaseActivity {
                 HttpUtils.getInstance().post(AppNetConfig.LOGIN, map, new HttpUtils.OnHttpClientListener() {
                     @Override
                     public void onSuccess(String json) {
-                        Log.d("json", "onSuccess: "+json);
+//                        Log.d("json", "onSuccess: "+json);
+                        try {
+                            JSONObject obj = new JSONObject(json);
+                            boolean isOk = obj.getBoolean("success");
+                            if(isOk) {
+                                //登录成功
+                                JSONObject data = obj.getJSONObject("data");
+                                String name = data.getString("name");
+                                String imageurl = data.getString("imageurl");
+                                String iscredit = data.getString("iscredit");
+                                String phone = data.getString("phone");
+                                LoginBean bean = new LoginBean();
+                                bean.setIscredit(iscredit);
+                                bean.setName(name);
+                                bean.setPhone(phone);
+                                bean.setImageurl(imageurl);
+                                //存储数据
+                                saveUser(bean);
+                                //跳转
+                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                //结束
+                                finish();
+                            }else {
+                                //登录失败
+                                showToast("账号或者密码不对");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
