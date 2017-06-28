@@ -14,6 +14,7 @@ import com.atguigu.p2pmodule.R;
 import com.atguigu.p2pmodule.base.BaseActivity;
 import com.atguigu.p2pmodule.bean.AppNetConfig;
 import com.atguigu.p2pmodule.utils.HttpUtils;
+import com.atguigu.p2pmodule.utils.Md5;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,7 +90,7 @@ public class RegisterActivity extends BaseActivity {
                 Map<String,String> map = new HashMap<String, String>();
                 map.put("name",name);
                 map.put("phone",number);
-                map.put("password",pwd);
+                map.put("password", Md5.Md5_16(pwd));
                 HttpUtils.getInstance().post(AppNetConfig.REGISTER, map, new HttpUtils.OnHttpClientListener() {
                     @Override
                     public void onSuccess(String json) {
